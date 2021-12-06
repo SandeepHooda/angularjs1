@@ -41,8 +41,8 @@ function ($stateProvider, $urlRouterProvider) {
 .run(function() {
   
 })
-;APP.CONTROLLERS.controller ('CTRL_HOME',['$scope','$state','$rootScope',
-    function($scope,$state,$rootScope){
+;APP.CONTROLLERS.controller ('CTRL_HOME',['$scope','$state','$rootScope','$http',
+    function($scope,$state,$rootScope,$http){
 	//cordova plugin add cordova-plugin-googleplus --variable REVERSED_CLIENT_ID=myreversedclientid
 	//cordova plugin add cordova-plugin-keyboard
 	//https://github.com/apache/cordova-plugin-geolocation
@@ -71,8 +71,23 @@ function ($stateProvider, $urlRouterProvider) {
 	        }
 	 $scope.viewMode = true;
 	 $scope.sheet = {};
-	 $scope.editTimeSheetDate = "";
+	 $scope.employeeArray = [];
 	 $scope.count = "200";
 	
+	 $scope.getData = function(){
+		$http.get('https://dummy.restapiexample.com/api/v1/employees')
+	  		.then(function(response){
+				$scope.employeeArray = [];
+	  			if (response.data ){
+					$scope.employeeArray=  response.data.data;
+						
+	  			}
+	  			
+	  		},
+			function(response){
+	  			alert("Error")
+	  			
+			});
+	}
 	 
 }])
